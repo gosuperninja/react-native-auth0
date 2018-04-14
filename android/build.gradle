@@ -1,3 +1,10 @@
+
+def DEFAULT_COMPILE_SDK_VERSION             = 26
+def DEFAULT_BUILD_TOOLS_VERSION             = "26.0.2"
+def DEFAULT_TARGET_SDK_VERSION              = 26
+def DEFAULT_GOOGLE_PLAY_SERVICES_VERSION    = "10.2.0"
+def DEFAULT_SUPPORT_LIBRARY_VERSION         = "27.1.0"
+
 project.ext {
     buildToolsVersion = "23.0.1"
 }
@@ -15,8 +22,8 @@ buildscript {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "${project.ext.buildToolsVersion}"
+    compileSdkVersion rootProject.hasProperty('compileSdkVersion') ? rootProject.compileSdkVersion : DEFAULT_COMPILE_SDK_VERSION
+    buildToolsVersion rootProject.hasProperty('buildToolsVersion') ? rootProject.buildToolsVersion : DEFAULT_BUILD_TOOLS_VERSION
 
     defaultConfig {
         minSdkVersion 16
@@ -34,7 +41,9 @@ repositories {
 }
 
 dependencies {
+    def supportLibVersion = rootProject.hasProperty('supportLibVersion')  ? rootProject.supportLibVersion : DEFAULT_SUPPORT_LIBRARY_VERSION
+
     compile 'com.facebook.react:react-native:+'
-    compile "com.android.support:customtabs:${project.ext.buildToolsVersion}"
+    compile "com.android.support:customtabs:${supportLibVersion}"
 }
 
